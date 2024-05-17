@@ -1,0 +1,207 @@
+[
+  {
+    "mode": 1,
+		"path": "SourceCode\\MPTool",
+		"condition": "svn <= 2056",
+    "targetFile": "MainForm.cpp",
+    "targetFunction": "bool TMainFrm::ScanReader",
+    "startString": "if (readerVersion[0] != TestStationVersion.GetFirmwareVersionString()) {",
+    "endString": "_ReaderFirmwareVersion = readerVersion[0].c_str();",
+    "newContentFile": "NewVer\\MainForm_ScanReaderV1.cpp"
+  },
+  {
+    "mode": 1,
+		"path": "SourceCode\\MPTool",
+		"condition": "svn >= 2056",
+    "targetFile": "MainForm.cpp",
+    "targetFunction": "bool TMainFrm::ScanReader",
+    "startString": "if (_ConfigEvent->IsSelfTestStatusCheck()) {",
+    "endString": "_ReaderFirmwareVersion = readerVersion[0].c_str();",
+    "newContentFile": "NewVer\\MainForm_ScanReaderV2.cpp"
+  },
+  {
+    "mode": 5,
+		"path": "SourceCode\\MPTool",
+    "targetFile": "TestStationVersion.cpp",
+    "newContentFile": "NewVer\\TestStationVersion.cpp"
+  },
+  {
+    "mode": 5,
+		"path": "SourceCode\\MPTool",
+    "targetFile": "TestStationVersion.h",
+    "newContentFile": "NewVer\\TestStationVersion.h"
+  },
+  {
+    "mode": 1,
+		"path": "SourceCode",
+    "targetFile": "UT33xReaderCmd.cpp",
+    "targetFunction": "CUT33xReaderCmd::GetReaderInfo",
+    "startString": "CBW.SetOpCode(READER_ClASS_OP_CODE, 0x00);",
+    "endString": "CBW.SetCbd( 0x08 , WorkMode);",
+    "newContentFile": "NewVer\\UT33xReaderCmd.cpp"
+  },
+  {
+    "mode": 1,
+		"path": "SourceCode\\SdCmd",
+		"condition": "svn < 2149",
+    "targetFile": "SdIo.cpp",
+    "targetFunction": "",
+    "startString": "CBW.SetCbd(0x02, QuickInitByCmd62);",
+    "endString": "_DeviceIo.CmdLaunch(CBW, NULL, 0, 10, true);",
+    "newContentFile": "NewVer\\SdIo.cpp"
+  },
+	  {
+    "mode": 1,
+		"path": "SourceCode\\SdCmd",
+		"condition": "svn >= 2169 && svn < 2699",
+    "targetFile": "SdHostIo.cpp",
+    "targetFunction": "",
+    "startString": "CBW.SetCbd(0x02, QuickInitByCmd62);",
+    "endString": "_Ut33xDevice.CmdLaunch(CBW, NULL, 0, 10, true);",
+    "newContentFile": "NewVer\\SdHostIo.cpp"
+  },
+  {
+    "mode": 1,
+		"path": "SourceCode",
+		"condition": "svn >= 2699",
+    "targetFile": "Ut33xIo.cpp",
+    "targetFunction": "",
+    "startString": "CBW.SetCbd(0x02, QuickInitByCmd62);",
+    "endString": "_Ut33xDevice.CmdLaunch(CBW, NULL, 0, 10, true);",
+    "newContentFile": "NewVer\\Ut33xIo.cpp"
+  },
+  {
+    "mode": 1,
+		"path": "SourceCode\\MPTool",
+		"condition": "svn >= 2725 && svn < 3098",
+    "targetFile": "CardOpenThread.cpp",
+    "targetFunction": "",
+    "startString": "#pragma hdrstop",
+    "endString": "#include \"Pch.h\"",
+    "newContentFile": "NewVer\\CardOpenThread_Pch.cpp"
+  },
+  {
+    "mode": 2,
+		"path": "SourceCode\\MPTool",
+    "targetFile": "CardOpenThread.cpp",
+    "targetFunction": "void CCardOpen::Run",
+    "targetString": "_CardSerialNum = SerialNum.Get();",
+    "newString": "    Save_40PortData_InSerialNum(_CardSerialNum);",
+    "insertAfter": true
+  },
+  {
+    "mode": 4,
+		"path": "SourceCode\\MPTool",
+    "targetFile": "CardOpenThread.cpp",
+    "newContentFile": "NewVer\\CardOpenThread_Append.cpp"
+  },
+  {
+    "mode": 2,
+		"path": "SourceCode\\MPTool",
+    "targetFile": "CardOpenThread.h",
+    "targetFunction": "",
+    "targetString": "void InitSmartReader();",
+    "newString": "	void Save_40PortData_InSerialNum(dword CardSerialNum);",
+    "insertAfter": true
+  },
+  {
+    "mode": 2,
+		"path": "SourceCode\\MPTool",
+    "targetFile": "MainForm.cpp",
+    "targetFunction": "void __fastcall TMainFrm::FormCreate",
+    "targetString": "SetupSerialNumAndMKBLicenseCount();",
+    "newString": "		ProcessSerialNumBeforeCreateCard();",
+    "insertAfter": false
+  },
+  {
+    "mode": 3,
+		"path": "SourceCode\\MPTool",
+    "targetFile": "MainForm.cpp",
+    "targetFunction": "void TMainFrm::SaveSerialNumAndMKBLicenseCount",
+    "targetString": "CIniFile  iniFile(_SerialNumberFilePath, FILE_CREATE_NEW);",
+    "newString": "	CIniFile  iniFile(_SerialNumberFilePath, FILE_OPEN_READ_WRITE);"
+  },
+  {
+    "mode": 2,
+		"path": "SourceCode\\MPTool",
+		"targetFile": "MainForm.cpp",
+    "targetFunction": "void TMainFrm::InitCardTest",
+    "targetString": "_StartTestTime = GetDateTimeString();",
+    "newString": "  Clear_40PortData_InSerialNum();",
+    "insertAfter": true
+  },
+  {
+    "mode": 2,
+		"path": "SourceCode\\MPTool",
+    "targetFile": "MainForm.cpp",
+    "targetFunction": "void __fastcall TMainFrm::CardOpenDone",
+    "targetString": "_CardTestStatus.Delete(cardTestThread);",
+    "newString": "    Update_40PortData_InSerialNum(cardTestThread);",
+    "insertAfter": true
+  },
+  {
+    "mode": 2,
+		"path": "SourceCode\\MPTool",
+    "targetFile": "MainForm.cpp",
+    "targetFunction": "void __fastcall TMainFrm::CardOpenDone",
+    "targetString": "EnableButton(MeasureStandbyCurrentBtn, true);",
+    "newString": "      Update_Start_InSerialNum();\n      Clear_RecyclingValue_InSerialNum();",
+    "insertAfter": true
+  },
+  {
+    "mode": 1,
+		"path": "SourceCode\\MPTool",
+    "targetFile": "MainForm.cpp",
+    "targetFunction": "void __fastcall TMainFrm::Settings_SerialNumberClick",
+    "startString": "form->GetSerialNumber(SerialNum);",
+    "endString": "_SerialNumberFilePath = form->GetIniFilePath();",
+    "newContentFile": "NewVer\\MainForm_Settings_SerialNumberClick.cpp"
+  },
+  {
+    "mode": 4,
+		"path": "SourceCode\\MPTool",
+    "targetFile": "MainForm.cpp",
+    "newContentFile": "NewVer\\MainForm_SNFunc.cpp"
+  },
+  {
+    "mode": 2,
+		"path": "SourceCode\\MPTool",
+		"condition": "svn < 2566",
+    "targetFile": "MainForm.h",
+    "targetFunction": "",
+    "targetString": "void UpdateKeepMkbResult(CCardTestThread* CardTestThread);",
+    "newString": "	void ProcessSerialNumBeforeCreateCard();\n	void Update_40PortData_InSerialNum(CCardTestThread* CardTestThread);\n	void Clear_40PortData_InSerialNum();\n	void Clear_RecyclingValue_InSerialNum();\n	void Update_Start_InSerialNum();",
+    "insertAfter": true
+  },
+  {
+    "mode": 2,
+		"path": "SourceCode\\MPTool",
+		"condition": "svn >= 2566",
+    "targetFile": "MainForm.h",
+    "targetFunction": "",
+    "targetString": "void MountRecoveryTagEditMenu(uint DeviceNo);",
+    "newString": "	void ProcessSerialNumBeforeCreateCard();\n	void Update_40PortData_InSerialNum(CCardTestThread* CardTestThread);\n	void Clear_40PortData_InSerialNum();\n	void Clear_RecyclingValue_InSerialNum();\n	void Update_Start_InSerialNum();",
+    "insertAfter": true
+  },
+  {
+    "mode": 2,	
+		"path": "SourceCode\\MPTool",
+    "targetFile": "MainForm.h",
+    "targetFunction": "",
+    "targetString": "wstring                   _SerialNumberFilePath;",
+    "newString": "	TCardStatus               _CardStatus;",
+    "insertAfter": false
+  },
+  {
+    "mode": 5,
+		"path": "SourceCode\\MPTool",
+    "targetFile": "SerialNum.cpp",
+    "newContentFile": "NewVer\\SerialNum.cpp"
+  },
+  {
+    "mode": 5,
+		"path": "SourceCode\\MPTool",
+		"targetFile": "SerialNum.h",
+    "newContentFile": "NewVer\\SerialNum.h"
+  }
+]
